@@ -1,29 +1,9 @@
-%clc;
-%clearvars;
+run('/Users/eyoong/Downloads/vlfeat/toolbox/vl_setup');
 
-%specify directory and extension type
-directory='Test_Images/'; extension='JPG';
-
-%load images
-[images] = load_images(directory, extension);
-
-%image = images{1};
-image1 = images{5};
-image2 = images{6};
-x_offset = -200; % shift x pixels right
-y_offset =  0; % shift y pixels up
-focal_length=595; % pixels
-
-image = alpha_blend(image1, image2, x_offset, y_offset);
-
-figure
-imshow(image);
-
-%size(image)
-%size(image,1)
-
-%figure
-%imshow(image);
-%title(['Image Title);
-%imwrite(image,'filename.png');
-
+image1 = imread('/Users/eyoong/Downloads/testingImages/100NIKON-DSCN0008_DSCN0008.JPG');
+image2 = imread('/Users/eyoong/Downloads/testingImages/100NIKON-DSCN0009_DSCN0009.JPG');
+image1 = cylindrical(image1, 595);
+image2 = cylindrical(image1, 595);
+%imshow(cylindrical(image1,200));
+[ maxinlierhom ]  = siftransac(image1,image2,40,100, 30);
+ 
