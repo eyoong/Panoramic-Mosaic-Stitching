@@ -8,14 +8,13 @@ for i=1:(2*yc)
     for j=1:(2*xc)
         theta = atan((j - xc)/f);
         h = (i - yc)/sqrt((j - xc)^2 + f^2);
-        cyrow = floor(f*theta+xc);
-        cycol = floor(f*h+yc);
+        cyrow = round(f*theta + xc);
+        cycol = round(f*h + yc);
         cylin(cycol,cyrow,:) = image(i,j,:);
     end
 end
 
 cylin = uint8(cylin);
-
 
 end
 
