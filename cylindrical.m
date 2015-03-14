@@ -23,7 +23,7 @@ for i=1:(2*yc)
     end
 end
 
-crop = zeros(f*floor(maxh)+yc, f*floor(maxtheta)+xc, 3);
+crop = zeros(floor(f*(maxh)+yc), floor(f*(maxtheta)+xc), 3);
 for i=1:(2*yc)
     for j=1:(2*xc)
         crop(cylin(i,j,1),cylin(i,j,2),:) = image(i,j,:);

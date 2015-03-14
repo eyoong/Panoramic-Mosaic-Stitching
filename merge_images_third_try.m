@@ -3,7 +3,9 @@ function [panorama] = merge_images_third_try(images, numsamples, iterations, thr
 
 panorama=images{1};
 for t = 2:length(images)
-    t
+    
+    M = siftransac(images{t}, panorama, numsamples, iterations, threshold);
+    images{t}=uint8(transform_image(M, images{t}));
     M = siftransac(images{t}, panorama, numsamples, iterations, threshold);
     x_offset=floor((1)*M(1,3));
     y_offset=floor((-1)*M(2,3));
