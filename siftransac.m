@@ -1,4 +1,4 @@
-function [ maxinlierhom ] = siftransac( image1, image2, numsamples, iterations, threshold )
+function [ maxinlierhom, besti1inliers, besti2inliers ] = siftransac( image1, image2, numsamples, iterations, threshold )
 %SIFTRANSAC Summary of this function goes here
 %   Detailed explanation goes here
 gray1 = single(rgb2gray(image1));
@@ -21,6 +21,8 @@ for i = 1:iterations
      i2samp(2,:) = feat2(2,samp(2,:));
      [ hom ] = homography(i1samp,i2samp);
      inliers = 0;
+     clear i1inliers;
+     clear i2inliers;
      for j=1:size(matches,2)
         point1 = zeros(3,1); point2 = zeros(3,1);
         point1 = feat1(1:2,matches(1,j));
@@ -32,9 +34,14 @@ for i = 1:iterations
         distance = norm(point2hom - point2);
         if (distance < threshold)
             inliers = inliers + 1;
+            i1inliers(1:2,inliers)=point1(1:2);
+            i2inliers(1:2,inliers)=point2(1:2);
         end
         if (inliers > max) 
             max = inliers;
+            hom = homography(i1inliers,i2inliers);
+            besti1inliers = i1inliers;
+            besti2inliers = i1inliers;
             maxinlierhom = hom;
         end
      end
