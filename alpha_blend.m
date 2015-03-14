@@ -18,6 +18,8 @@ rows2 = size(image2, 1);
 columns1 = size(image1,2);
 columns2 = size(image2,2);
 
+overlap=columns1-x_offset;
+
 % result image dimensions
 result_columns=columns2 + x_offset;
 result_rows = max(rows1,rows2+y_offset);
@@ -46,13 +48,14 @@ h=0;
 if (y_offset < 0) 
     h=y_offset*(-1);
 end
-for i=1:rows1
-    for j=1:columns1
+for i=1:rows2
+    for j=1:columns2
         result_image(i+h,j+x_offset,1)=image2(i,j,1);
         result_image(i+h,j+x_offset,2)=image2(i,j,2);
         result_image(i+h,j+x_offset,3)=image2(i,j,3);
     end
 end
+
 
 % redo overlap region with blending
 % left image
@@ -62,7 +65,7 @@ if (y_offset > 0)
 end
 for i=1:rows1
     for j=(x_offset+1):columns1
-        alpha = 1-(j-x_offset)/(columns1-x_offset);
+        alpha = 1-(j-0.5-x_offset)/(overlap);
         result_image(i+h,j,1)=image1(i,j,1)*alpha;
         result_image(i+h,j,2)=image1(i,j,2)*alpha;
         result_image(i+h,j,3)=image1(i,j,3)*alpha;
@@ -74,15 +77,14 @@ h=0;
 if (y_offset < 0) 
     h=y_offset*(-1);
 end
-for i=1:rows1
-    for j=1:columns1-x_offset
-        alpha = j/(columns1-x_offset);
+for i=1:rows2
+    for j=1:overlap
+        alpha = (j-0.5)/(overlap);
         result_image(i+h,j+x_offset,1)=image2(i,j,1)*alpha+result_image(i+h,j+x_offset,1);
         result_image(i+h,j+x_offset,2)=image2(i,j,2)*alpha+result_image(i+h,j+x_offset,2);
         result_image(i+h,j+x_offset,3)=image2(i,j,3)*alpha+result_image(i+h,j+x_offset,3);
     end
 end
-
 
 result_image=uint8(result_image);
 

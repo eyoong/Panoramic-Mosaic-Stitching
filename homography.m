@@ -5,7 +5,6 @@ function [ hom ] = homography( i1matches, i2matches )
 A = zeros(size(i1matches,2)*3,9);
 b = zeros(size(i2matches,2)*3,1);
 
-
 for i = 1:size(i1matches,2)
     for offset=1:3
         A(3 * (i-1) + offset, 3*(offset-1) + 1) = i1matches(1,i);

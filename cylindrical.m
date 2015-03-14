@@ -16,14 +16,14 @@ for i=1:(2*yc)
         if h > maxh
             maxh = h;
         end
-        cyrow = round(f*theta + xc);
-        cycol = round(f*h + yc);
+        cyrow = floor(f*theta + xc);
+        cycol = floor(f*h + yc);
         cylin(i,j,1) = cycol;
         cylin(i,j,2) = cyrow;
     end
 end
 
-crop = zeros(f*round(maxh)+yc, f*round(maxtheta)+xc, 3);
+crop = zeros(f*floor(maxh)+yc, f*floor(maxtheta)+xc, 3);
 for i=1:(2*yc)
     for j=1:(2*xc)
         crop(cylin(i,j,1),cylin(i,j,2),:) = image(i,j,:);
