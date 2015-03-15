@@ -24,12 +24,9 @@ focal_length = 595;
 [images] = cylindrical_transform_image_set(images, focal_length);
 [images] = crop_left_side(images,6);
 
-figure
-imshow(images{1})
-
 % SIFT RANSAC parameters
 numsamples_homography = 4; % min 4
-iterations_ransac = 1000;    % more is better but takes longer O(n)
+iterations_ransac = 500;    % more is better but takes longer O(n)
 threshold_inliers = 7;    % how close do the inliers need to be to be considered inliers
 
 % compute pairwise alignments and merge images
@@ -37,8 +34,17 @@ threshold_inliers = 7;    % how close do the inliers need to be to be considered
 % [panorama] = merge_images_second_try(images, numsamples_homography, iterations_ransac, threshold_inliers, @alpha_blend);
 [panorama] = merge_images_third_try(images, numsamples_homography, iterations_ransac, threshold_inliers, @alpha_blend);
 
+% panorama=imread(['unaligned_panorama.png']);
+
+figure
+imshow(panorama);
+title(['Pre-Alignment']);
+imwrite(panorama,'unaligned_test_panorama.png');
+
 % fix end-to-end-alignment
-% image = end_to_end_alignment(panorama);
+panorama = end_to_end_alignment(panorama, 100, numsamples_homography, iterations_ransac, threshold_inliers);
 
 figure
 imshow(panorama)
+title(['Aligned Panorama']);
+imwrite(panorama,'aligned_test_panorama.png');
