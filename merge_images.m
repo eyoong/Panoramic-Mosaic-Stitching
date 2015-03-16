@@ -1,19 +1,16 @@
-function [panorama] = merge_images(images, numsamples, iterations, threshold, blending_function)
-% 
+function [panorama] = merge_images(images, numsamples, iterations, threshold, alpha_blend)
+%
 
 panorama=images{1};
-for i = 2:length(images)
-    M = siftransac(images{i}, panorama, numsamples, iterations, threshold);
-    [image, row_offset, column_offset]=transform_image(M, images{i});
-    panorama=blending_function(panorama, image, row_offset, column_offset);
+for t = 2:length(images)
+    [t,length(images)]
+    M = siftransac(images{t}, panorama, numsamples, iterations, threshold);
+    
+    % include the following two lines to use the full planar perspective transformation
+    % images{t}=uint8(transform_image(M, images{t}));
+    % M = siftransac(images{t}, panorama, numsamples, iterations, threshold);    
+    
+    x_offset=floor((1)*M(1,3));
+    y_offset=floor((-1)*M(2,3));
+    panorama = alpha_blend(panorama, images{t}, x_offset, y_offset);
 end
-
-
-
-% perform SIFT and RANSAC to compute transformation matrix
-% sift_ransac (images_set, numsamples (min 4), iterations of RANSAC, threshold (distance to be considered an inlier))
-% returns a set of matrices to transform an image into the coordinate
-% system of the previous set of merged images
-% [M, image1] = sift_ransac_image_set(images, 4, 100, 30);
-
-% [M, image] = sift_ransac_image_set(images, numsamples, iterations, threshold)

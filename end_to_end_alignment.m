@@ -6,7 +6,7 @@ left_image = panorama(:, 1:num_pixels, :);
 right_image = panorama(:, (size(panorama,2)-num_pixels):size(panorama,2), :);
 M = siftransac(left_image, right_image, numsamples, iterations, threshold);
 
-row_offset = int32(M(1,3))*(-1);  % change the sign of this if slope is going down vs. up
+row_offset = int32(M(1,3))*(1);  % change the sign of this if slope is going down vs. up
 
 if row_offset == 0 
     image = panorama;

@@ -1,18 +1,46 @@
-panorama=imread(['aligned_lecture_hall_panorama.png']);
-space_image=imread(['Space_Picture/alien-planet-55-cancri-e-artist-view-earth.jpg']);
+image=imread(['patrick.jpg']);
+window=imread(['Space_Picture/alien-planet-55-cancri-e-artist-view-earth.jpg']);
 
-size(panorama)
-size(space_image)
+size(image)
+size(window)
 
-panorama_points = [100, 3000,1 ; 100, 3500, 1; 400, 3500, 1; 400, 3000, 1]
-space_image_points = [200, 300, 1; 200, 800, 1; 400, 800, 1; 400, 300, 1]
-x=50;
-p = [100, 3000+x,1 ; 100, 3500+x, 1; 400, 3500+x, 1; 400, 3000+x, 1]
+%figure
+%imshow(window)
 
-H = homography(space_image_points', panorama_points')
-[result, row_offset, column_offset]=transform_image(H, space_image);
+image_points = [   200, 200, 1; 
+                    1, size(image,2), 1;
+                    size(image,1), size(image,2), 1;
+                    size(image,1), 1, 1];
 
-imshow(result)
+window_points = [   1, 1, 1; 
+                    1, size(window,2), 1;
+                    size(window,1), size(window,2), 1;
+                    size(window,1), 1, 1];
+
+H = homography(window_points', image_points')
+% H_inverse=inv(H);
+% for i=1:size(image,1)
+%     for j=1:size(image,2)
+%        p=int32(H_inverse*[i,j,1]');
+%        if (p(1)>1 && p(1) < size(window, 1) && p(2) > 1 && p(2) < size(window, 2))
+%            image(i,j,:)=window(p(1),p(2),:);
+%        end
+%     end
+% end
+
+H_inverse=inv(H);
+for i=1:size(window,1)
+    for j=1:size(window,2)
+       p=floor(H*[i,j,1]');
+       if (p(1) > 1 && p(1) < size(window,1) && p(2) > 1 && p(2) < size(window,2))
+            image(p(1),p(2),:)=window(i,j,:);
+       end
+    end
+end
+
+image = uint8(image);
+%figure
+imshow(image)
 
 
 

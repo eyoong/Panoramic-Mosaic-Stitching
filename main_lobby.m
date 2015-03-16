@@ -6,14 +6,14 @@ run('VLFeat/vlfeat-0.9.20/toolbox/vl_setup');
 
 % specify directory and extension type
 %directory='Test_Images/'; extension='JPG';
-directory='Lecture_Hall/'; extension='JPG';
+directory='Lobby/'; extension='JPG';
 
 % load images
 [images] = load_images(directory, extension);
 
 for i = 1:length(images)
     images{i}=imrotate(images{i},270);
-    images{i}=imresize(images{i}, [480,640]);
+    %images{i}=imresize(images{i}, [480,640]);
 end
 
 % % shorter data set for testing
@@ -23,13 +23,13 @@ end
 % images = temp;
 
 % cylindrical transform of the entire image set
-focal_length = 663.3665;
+focal_length = 660.8799;
 [images] = cylindrical_transform_image_set(images, focal_length);
 [images] = crop_left_side(images,20);
 
 % SIFT RANSAC parameters
 numsamples_homography = 4; % min 4
-iterations_ransac = 20000;    % more is better but takes longer O(n)
+iterations_ransac = 2000;    % more is better but takes longer O(n)
 threshold_inliers = 12;    % how close do the inliers need to be to be considered inliers
 
 % compute pairwise alignments and merge images
@@ -40,7 +40,7 @@ threshold_inliers = 12;    % how close do the inliers need to be to be considere
 figure
 imshow(panorama);
 title(['Pre-Alignment']);
-imwrite(panorama,'unaligned_lecture_hall_panorama_2.png');
+imwrite(panorama,'unaligned_lobby_panorama_1.png');
 
 % fix end-to-end-alignment
 panorama = end_to_end_alignment(panorama, 500, numsamples_homography, iterations_ransac, threshold_inliers);
@@ -48,4 +48,4 @@ panorama = end_to_end_alignment(panorama, 500, numsamples_homography, iterations
 figure
 imshow(panorama)
 title(['Aligned Panorama']);
-imwrite(panorama,'aligned_lecture_hall_panorama_2.png');
+imwrite(panorama,'aligned_lobby_panorama_1.png');

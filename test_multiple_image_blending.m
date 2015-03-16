@@ -26,7 +26,7 @@ focal_length = 595;
 
 % SIFT RANSAC parameters
 numsamples_homography = 4; % min 4
-iterations_ransac = 500;    % more is better but takes longer O(n)
+iterations_ransac = 30000;    % more is better but takes longer O(n)
 threshold_inliers = 7;    % how close do the inliers need to be to be considered inliers
 
 % compute pairwise alignments and merge images
