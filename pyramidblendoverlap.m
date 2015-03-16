@@ -1,5 +1,4 @@
 function [ blended ] = pyramidblendoverlap( image1, image2, level, overlapstart, overlapend )
-% implemented with ideas from Wiggin's pyramid blending 
 
 image1=im2double(image1);
 image2=im2double(image2);
@@ -8,10 +7,11 @@ image2=im2double(image2);
 % R(:,overlapstart:overlapend,:) = 1;
 % gaussianR = makepyramid(R, level, 'gauss');
 
-i1laplacian = makepyramid(image1,level, 'laplacian'); 
-i2laplacian = makepyramid(image2,level,'laplacian');
+i1laplacian = makepyramid(image1,level); 
+i2laplacian = makepyramid(image2,level);
 
-left = zeros(size(image1,1), size(image1,2),size(image1,3));
+size(image1,1), size(image1,2), size(image1,3)
+left = zeros(size(image1,1), size(image1,2), size(image1,3));
 
 % Weighted so left side is image1's Laplacian, right is image2's Laplacian
 % and overlap strip is the average of both image's Laplacian.
