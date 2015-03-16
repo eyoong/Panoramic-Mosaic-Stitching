@@ -1,4 +1,4 @@
-function [ pyramid ] = makepyramid( image, level, type )
+function [ pyramid ] = makepyramid( image, level )
 %PYRBLEND Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -12,9 +12,9 @@ for i = 2: level
    pyramid{i} = impyramid(pyramid{i-1},'reduce');  
 end
 
-if strcmp(type,'gauss') 
-    return; 
-end
+% if strcmp(type,'gaussian') 
+%     return; 
+% end
 
 for i = level-1:-1:1
 	pyramid{i} = pyramid{i}(1:size(pyramid{i+1},1)*2-1,1:size(pyramid{i+1},2)*2-1,:);
