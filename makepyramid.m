@@ -1,4 +1,4 @@
-function [ pyramid ] = makepyramid( image, level )
+function [ pyramid ] = makepyramid( image, level, type )
 %PYRBLEND Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -10,6 +10,10 @@ for i = 2: level
    % using Matlab's native reduce function to obtain the filtered image at
    % level i in the Gaussian pyramid.
    pyramid{i} = impyramid(pyramid{i-1},'reduce');  
+end
+
+if strcmp(type,'gauss') 
+    return; 
 end
 
 for i = level-1:-1:1
