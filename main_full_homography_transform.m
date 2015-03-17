@@ -29,7 +29,7 @@ focal_length = 663.3665;
 
 % SIFT RANSAC parameters
 numsamples_homography = 4; % min 4
-iterations_ransac = 1000;    % more is better but takes longer O(n)
+iterations_ransac = 500;    % more is better but takes longer O(n)
 threshold_inliers = 12;    % how close do the inliers need to be to be considered inliers
 
 % compute pairwise alignments and merge images
@@ -37,4 +37,4 @@ threshold_inliers = 12;    % how close do the inliers need to be to be considere
 
 figure
 imshow(panorama);
-imwrite(panorama,'test.png');
+imwrite(panorama,'lecture_hall_without_full_transform.png');
